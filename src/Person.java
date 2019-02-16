@@ -1,11 +1,28 @@
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Person {
 
     private String pesel;
     private List<Food> availableFoods;
     private List<Animal> animals;
+
+    public void feed() {
+        for (Animal animal : animals) {
+            availableFoods.stream()
+                    .filter(animal::isMyFavourite)
+                    .findAny()
+                    .ifPresent(animal::feedAnimal);
+        }
+    }
+
+    public List<Animal> listOfHungryAnimals(){
+        return animals.stream()
+                .filter(Animal::isHungry)
+                .collect(Collectors.toList());
+    }
 
     public Person(String pesel, List<Food> availableFoods, List<Animal> animals) {
         this.pesel = pesel;

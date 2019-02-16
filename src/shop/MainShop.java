@@ -1,0 +1,110 @@
+package shop;
+
+import java.math.BigDecimal;
+import java.util.Scanner;
+
+public class MainShop {
+    public static User user;
+    public static ProductService productService = new ProductService();
+    private static final Scanner scanner = new Scanner(System.in);
+    public static UserService userService = new UserService();
+
+    public static void main(String[] args) {
+        initProducts();
+        start();
+    }
+
+    private static void start() {
+        if (user == null) {
+            initialMenu();
+        }else {
+            loggedMenu();
+        }
+    }
+
+    private static void initProducts() {
+        Product product1 = new Product();
+        Product product2 = new Product();
+        Product product3 = new Product();
+        Product product4 = new Product();
+        product1.setName("chleb");
+        product2.setName("śledź");
+        product3.setName("paluszki");
+        product4.setName("dziecko");
+        product1.setPrice(new BigDecimal("2.04"));
+        product2.setPrice(new BigDecimal("3"));
+        product3.setPrice(new BigDecimal("4.6"));
+        product4.setPrice(new BigDecimal("3.55"));
+        productService.addAll(product1, product2, product3, product4);
+    }
+
+    private static void loggedMenu() {
+        System.out.println("Wybierz opcję: ");
+        System.out.println("1. Zakończ");
+        System.out.println("2. Pokaż dostępne produkty");
+
+        Integer choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                System.exit(0);
+            case 2:
+                showProducts();
+                break;
+            default:
+                System.out.println("Wybrałeś nieprawidłową opcję");
+        }
+        start();
+    }
+
+    private static void showProducts() {
+        productService.showListOfProducts();
+    }
+
+    private static void initialMenu() {
+        System.out.println("Wybierz opcję: ");
+        System.out.println("1. Zaloguj");
+        System.out.println("2. Zarejestruj");
+        System.out.println("3. Zakończ");
+
+        Integer choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                login();
+                break;
+            case 2:
+                register();
+                break;
+            case 3:
+                System.exit(0);
+            default:
+                System.out.println("Wybrałeś nieprawidłową opcję");
+        }
+        start();
+    }
+
+    private static void login() {
+        System.out.println("Podaj login:");
+        String login = scanner.next();
+        System.out.println("Podaj hasło:");
+        String password = scanner.next();
+        boolean ifSuccess = userService.login(login, password);
+        if (ifSuccess) {
+            System.out.println("Udało się zalogować");
+        } else {
+            System.out.println("Nie udało się zalogować");
+        }
+    }
+
+    private static void register() {
+        System.out.println("Podaj login:");
+        String login = scanner.next();
+        System.out.println("Podaj hasło:");
+        String password = scanner.next();
+        boolean ifSuccess = userService.registration(login, password);
+        if (ifSuccess) {
+            System.out.println("Udało się zarejestrować");
+        } else {
+            System.out.println("Nie udało się zarejestrować");
+        }
+    }
+}

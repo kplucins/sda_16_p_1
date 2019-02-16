@@ -9,10 +9,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String str = IntStream.range(0, 20)
-                    .mapToObj(Main::mapToString)
-                    .collect(Collectors.joining(";", "{", "}"));
-        System.out.println(str);
+    App app = new App();
+    app.start();
     }
 
     public static String mapToString(int i) {

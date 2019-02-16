@@ -18,6 +18,13 @@ public class App {
             Person person = new Person(pesel, availableFoods, animals);
             p.add(person);
         }
+        p.forEach(Person::feed);
+
+        p.stream()
+                .map(Person::listOfHungryAnimals)
+                .flatMap(List::stream)
+                .map(Animal::getName)
+                .forEach(System.out::println);
     }
 
     public List<Animal> returnAnimals(String owner) {
