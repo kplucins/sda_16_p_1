@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class App {
 
@@ -11,13 +12,9 @@ public class App {
 
     public void start() {
         populateFood(50);
-        for (int i = 0; i < 5; i++) {
-            String pesel = "123456798" + i;
-            List<Food> availableFoods = returnRandomFoods(5);
-            List<Animal> animals = returnAnimals(pesel);
-            Person person = new Person(pesel, availableFoods, animals);
-            p.add(person);
-        }
+
+        IntStream.range(0, 5).forEach(this::createPerson);
+
         p.forEach(Person::feed);
 
         p.stream()
@@ -25,6 +22,15 @@ public class App {
                 .flatMap(List::stream)
                 .map(Animal::getName)
                 .forEach(System.out::println);
+    }
+
+    private void createPerson(int i) {
+        lenght
+        String pesel = "123456798" + i;
+        List<Food> availableFoods = returnRandomFoods(lenght);
+        List<Animal> animals = returnAnimals(pesel);
+        Person person = new Person(pesel, availableFoods, animals);
+        p.add(person);
     }
 
     public List<Animal> returnAnimals(String owner) {

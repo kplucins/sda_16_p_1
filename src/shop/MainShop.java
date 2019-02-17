@@ -91,7 +91,6 @@ public class MainShop {
         }else{
             System.out.println("Dodano produkt.");
         }
-
         start();
     }
 
