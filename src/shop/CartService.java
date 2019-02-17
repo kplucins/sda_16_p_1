@@ -16,6 +16,12 @@ public class CartService {
         addCartToMap(currentCart);
     }
 
+    public void removeProduct(Product product){
+        Cart currentCart = getCart();
+        currentCart.removeProduct(product);
+        addCartToMap(currentCart);
+    }
+
     public Set<CartProduct> getCartProducts(){
         return getCart().getCartProducts();
     }

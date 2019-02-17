@@ -1,9 +1,13 @@
 package shop;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.function.Consumer;
+
+//TODO delete(), order(), change quantity, rabat(), clear()
 
 public class MainShop {
     public static User user;
@@ -60,6 +64,7 @@ public class MainShop {
         System.out.println("2. Pokaż dostępne produkty");
         System.out.println("3. Dodaj do koszyka produkt");
         System.out.println("4. Pokaż zawartość koszyka");
+        System.out.println("5. Usuń produkt z koszyka");
 
         Integer choice = scanner.nextInt();
         switch (choice) {
@@ -74,6 +79,9 @@ public class MainShop {
             case 4:
                 showCartProducts();
                 break;
+            case 5:
+                removeFromCart();
+                break;
             default:
                 System.out.println("Wybrałeś nieprawidłową opcję");
         }
@@ -81,15 +89,23 @@ public class MainShop {
     }
 
     private static void addToCart() {
+        productManagement("", cartService::addProduct);
+    }
+
+    private static void removeFromCart(){
+        productManagement("", cartService::removeProduct);
+    }
+
+    private static void productManagement(String successMessage, Consumer<Product> manage){
         System.out.println("Podaj id produktu:");
         Long productId = scanner.nextLong();
         Optional<Product> product = productService.getById(productId);
-        product.ifPresent(cartService::addProduct);
+        product.ifPresent(manage);
 
         if (!product.isPresent()) {
             System.out.println("Nie ma takiego produktu, podaj prawidłowe id.");
         }else{
-            System.out.println("Dodano produkt.");
+            System.out.println(successMessage);
         }
         start();
     }

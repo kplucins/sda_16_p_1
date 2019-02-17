@@ -59,7 +59,7 @@ public class App {
     public void populateFood(int size) {
         for (int i = 0; i < size; i++) {
             Food food = new Food("Food " + i);
-            f.add(food);
+            createdFoods.add(food);
 //            f.add(new Food("Food " + i));
         }
     }

@@ -10,6 +10,10 @@ public class Cart {
         this.user = user;
     }
 
+    public void removeProduct(Product product){
+        cartProducts.removeIf(cartProduct -> cartProduct.getProduct().equals(product));
+    }
+
     public void addProduct(Product product) {
         CartProduct cartProductTemp = cartProducts.stream()
                 .filter(cartProduct -> cartProduct.getProduct().equals(product))
