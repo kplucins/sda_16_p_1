@@ -1,6 +1,7 @@
 package shop;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class CartProduct {
     private Product product;
@@ -8,7 +9,18 @@ public class CartProduct {
     private BigDecimal price;
     private Integer quantity;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CartProduct that = (CartProduct) o;
+        return Objects.equals(product, that.product);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(product);
+    }
 
     public Product getProduct() {
         return product;
