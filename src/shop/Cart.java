@@ -35,11 +35,11 @@ public class Cart {
         this.user = user;
     }
 
-    public List<CartProduct> getCartProducts() {
+    public Set<CartProduct> getCartProducts() {
         return cartProducts;
     }
 
-    public void setCartProducts(List<CartProduct> cartProducts) {
+    public void setCartProducts(Set<CartProduct> cartProducts) {
         this.cartProducts = cartProducts;
     }
 }

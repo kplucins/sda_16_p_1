@@ -3,6 +3,8 @@ package shop;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import static java.math.BigDecimal.valueOf;
+
 public class CartProduct {
     private Product product;
     private Cart cart;
@@ -52,5 +54,18 @@ public class CartProduct {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String viewProduct() {
+        return new StringBuilder()
+                .append(product.getName())
+                .append(" ")
+                .append(this.price)
+                .append(" ")
+                .append(this.quantity)
+                .append(" ")
+                .append(this.price.multiply(valueOf(quantity)))
+                .toString();
+
     }
 }

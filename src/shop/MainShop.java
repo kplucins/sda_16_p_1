@@ -3,12 +3,15 @@ package shop;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.Set;
 
 public class MainShop {
     public static User user;
     public static ProductService productService = new ProductService();
     private static final Scanner scanner = new Scanner(System.in);
     public static UserService userService = new UserService();
+    public static CartService cartService = new CartService();
+
 
     public static void main(String[] args) {
         initProducts();
@@ -18,9 +21,17 @@ public class MainShop {
     private static void start() {
         if (user == null) {
             initialMenu();
-        }else {
+        } else {
             loggedMenu();
         }
+    }
+
+    private static void showCartProducts(){
+        Set<CartProduct> cartProducts = cartService.getCartProducts();
+        cartProducts.stream()
+                .map(CartProduct::viewProduct)
+                .forEach(System.out::println);
+        start();
     }
 
     private static void initProducts() {
@@ -48,6 +59,7 @@ public class MainShop {
         System.out.println("1. Zakończ");
         System.out.println("2. Pokaż dostępne produkty");
         System.out.println("3. Dodaj do koszyka produkt");
+        System.out.println("4. Pokaż zawartość koszyka");
 
         Integer choice = scanner.nextInt();
         switch (choice) {
@@ -59,6 +71,9 @@ public class MainShop {
             case 3:
                 addToCart();
                 break;
+            case 4:
+                showCartProducts();
+                break;
             default:
                 System.out.println("Wybrałeś nieprawidłową opcję");
         }
@@ -69,11 +84,14 @@ public class MainShop {
         System.out.println("Podaj id produktu:");
         Long productId = scanner.nextLong();
         Optional<Product> product = productService.getById(productId);
+        product.ifPresent(cartService::addProduct);
 
-        if(!product.isPresent()){
+        if (!product.isPresent()) {
             System.out.println("Nie ma takiego produktu, podaj prawidłowe id.");
+        }else{
+            System.out.println("Dodano produkt.");
         }
-        //TODO
+
         start();
     }
 

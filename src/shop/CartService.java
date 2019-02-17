@@ -3,6 +3,7 @@ package shop;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class CartService {
 
@@ -10,19 +11,20 @@ public class CartService {
     private Map<Long, List<Cart>> oldCarts = new HashMap<>();
 
     public void addProduct(Product product) {
-        Long userId = MainShop.user.getId();
-        Cart currentCart = getCart(userId);
-        CartProduct cartProduct = new CartProduct();
-        cartProduct.s
-        currentCart.getCartProducts().add(cartProduct);
-        addCartToMap(userId,currentCart);
+        Cart currentCart = getCart();
+        currentCart.addProduct(product);
+        addCartToMap(currentCart);
     }
 
-    public Cart getCart(Long userId) {
-        return carts.getOrDefault(userId, new Cart());
+    public Set<CartProduct> getCartProducts(){
+        return getCart().getCartProducts();
     }
 
-    private void addCartToMap(Long userId, Cart newCart){
-        carts.put(userId,newCart);
+    public Cart getCart() {
+        return carts.getOrDefault(MainShop.user.getId(), new Cart(MainShop.user));
+    }
+
+    private void addCartToMap(Cart newCart){
+        carts.put(MainShop.user.getId(),newCart);
     }
 }
