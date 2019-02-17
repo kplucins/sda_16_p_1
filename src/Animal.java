@@ -4,7 +4,6 @@ import java.util.Objects;
 public class Animal {
 
     private String name;
-    private String ownerName;
     private List<Food> favoriteFoods;
     private Food food;
 
@@ -12,9 +11,8 @@ public class Animal {
         this.name = "animal " + i;
     }
 
-    public Animal(String name, List<Food> favoriteFoods, String ownerName) {
-        this.name = name + ownerName;
-        this.ownerName = ownerName;
+    public Animal(String name, List<Food> favoriteFoods) {
+        this.name = name;
         this.favoriteFoods = favoriteFoods;
     }
 
@@ -53,12 +51,11 @@ public class Animal {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
-        return Objects.equals(name, animal.name) &&
-                Objects.equals(ownerName, animal.ownerName);
+        return Objects.equals(name, animal.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, ownerName);
+        return Objects.hash(name);
     }
 }

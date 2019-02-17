@@ -1,58 +1,59 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class App {
 
     private final static Random RANDOM = new Random();
 
-    private List<Person> p = new ArrayList<>();
-    private List<Food> f = new ArrayList<>();
+    private List<Person> createdPersons = new ArrayList<>();
+    private List<Food> createdFoods = new ArrayList<>();
 
     public void start() {
         populateFood(50);
 
-        IntStream.range(0, 5).forEach(this::createPerson);
+        IntStream.range(0, 5)
+                .mapToObj(i -> "123456798" + i)
+                .map(this::createPerson)
+                .forEach(createdPersons::add);
 
-        p.forEach(Person::feed);
+        createdPersons.forEach(Person::feed);
 
-        p.stream()
+        createdPersons.stream()
                 .map(Person::listOfHungryAnimals)
                 .flatMap(List::stream)
                 .map(Animal::getName)
                 .forEach(System.out::println);
     }
 
-    private void createPerson(int i) {
-        lenght
-        String pesel = "123456798" + i;
-        List<Food> availableFoods = returnRandomFoods(lenght);
+    private Person createPerson(String pesel) {
+        int length = 5;
+        List<Food> availableFoods = returnRandomFoods(length);
         List<Animal> animals = returnAnimals(pesel);
-        Person person = new Person(pesel, availableFoods, animals);
-        p.add(person);
+        return new Person(pesel, availableFoods, animals);
     }
 
     public List<Animal> returnAnimals(String owner) {
-        List<Animal> animals = new ArrayList<>();
         int size = RANDOM.nextInt(5);
-        for (int i = 0; i < size; i++) {
-            List<Food> favAnimalFoods = returnRandomFoods(8);
-            Animal animal = new Animal("Animal " + i, favAnimalFoods, owner);
-            animals.add(animal);
-        }
-        return animals;
+        return IntStream.range(0, size)
+                .mapToObj(n -> "Animal " + n + " " + owner)
+                .map(this::createAnimal)
+                .collect(Collectors.toList());
+    }
+
+    private Animal createAnimal(String name) {
+        List<Food> favAnimalFoods = returnRandomFoods(8);
+        return new Animal(name, favAnimalFoods);
     }
 
     public List<Food> returnRandomFoods(int length) {
-        List<Food> foods = new ArrayList<>();
         int size = RANDOM.nextInt(length);
-        for (int i = 0; i < size; i++) {
-            int no = RANDOM.nextInt(f.size());
-            Food food = f.get(no);
-            foods.add(food);
-        }
-        return foods;
+       return IntStream.range(0, size)
+                .map(i -> RANDOM.nextInt(createdFoods.size()))
+                .mapToObj(createdFoods::get)
+                .collect(Collectors.toList());
     }
 
     public void populateFood(int size) {
