@@ -1,6 +1,7 @@
 package shop;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class MainShop {
@@ -27,6 +28,10 @@ public class MainShop {
         Product product2 = new Product();
         Product product3 = new Product();
         Product product4 = new Product();
+        product1.setId(1L);
+        product2.setId(2L);
+        product3.setId(3L);
+        product4.setId(4L);
         product1.setName("chleb");
         product2.setName("śledź");
         product3.setName("paluszki");
@@ -42,6 +47,7 @@ public class MainShop {
         System.out.println("Wybierz opcję: ");
         System.out.println("1. Zakończ");
         System.out.println("2. Pokaż dostępne produkty");
+        System.out.println("3. Dodaj do koszyka produkt");
 
         Integer choice = scanner.nextInt();
         switch (choice) {
@@ -50,11 +56,27 @@ public class MainShop {
             case 2:
                 showProducts();
                 break;
+            case 3:
+                addToCart();
+                break;
             default:
                 System.out.println("Wybrałeś nieprawidłową opcję");
         }
         start();
     }
+
+    private static void addToCart() {
+        System.out.println("Podaj id produktu:");
+        Long productId = scanner.nextLong();
+        Optional<Product> product = productService.getById(productId);
+
+        if(!product.isPresent()){
+            System.out.println("Nie ma takiego produktu, podaj prawidłowe id.");
+        }
+        //TODO
+        start();
+    }
+
 
     private static void showProducts() {
         productService.showListOfProducts();

@@ -14,9 +14,18 @@ public class UserService {
             User user = new User();
             user.setName(name);
             user.setPassword(password);
+            user.setId(getNextId());
             registeredUsers.add(user);
         }
         return notExist;
+    }
+
+    private Long getNextId() {
+        Long id = registeredUsers.stream()
+                .map(User::getId)
+                .max(Long::compareTo)
+                .orElse(0L);
+        return ++id;
     }
 
     public boolean login(String name, String password){
